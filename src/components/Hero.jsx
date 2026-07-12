@@ -52,7 +52,7 @@ export default function Hero() {
           <div className="overflow-hidden rounded-[1.5rem] bg-surface/80 p-4">
             <div className="overflow-hidden rounded-[1.25rem] border border-white/10 bg-gradient-to-br from-white/10 via-forestAccent/20 to-emeraldAccent/25">
               <img
-                src="/images/p3.jpg"
+                src="images/p3.jpg"
                 alt="Profile placeholder"
                 className="h-full w-full object-cover"
               />

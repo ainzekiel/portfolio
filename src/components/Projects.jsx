@@ -6,37 +6,37 @@ const projects = [
     title: "JOBOL's MENU",
     description: "Jobol's Menu is a Java and MySQL-based food ordering management system designed to automate restaurant menu customization, customer billing, and daily transaction tracking through a clean desktop interface.",
     techStack: ["Java", "MySQL"],
-    images: ["/images/j1.png", "/images/j2.png", "/images/j3.png", "/images/j4.png", "/images/j5.png"],
+    images: ["images/j1.png", "images/j2.png", "images/j3.png", "images/j4.png", "images/j5.png"],
   },
   {
     title: 'Art Space Hub',
     description: 'Art Space Hub is a web-based art gallery management system built with Laravel and MySQL that centralizes artwork inventory tracking, exhibition scheduling, and artist curation into a seamless platform.',
     techStack: ['HTML', 'CSS', 'Laravel', 'MySQL', 'PHP', 'JavaScript'],
-    images: ["/images/a1.jpg", "/images/a2.jpg", "/images/a3.jpg", "/images/a4.jpg", "/images/a5.jpg"],
+    images: ["images/a1.jpg", "images/a2.jpg", "images/a3.jpg", "images/a4.jpg", "images/a5.jpg"],
   },
   {
     title: 'AgriSync',
     description: 'A unified platform connecting local farmers directly to eateries, optimizing fresh produce supply chains with smart logistics and transparent trading.',
     techStack: ['Flutter', 'Rest API', 'Firebase'],
-    images: ["/images/b1.png", "/images/b2.png", "/images/b3.png", "/images/b4.png"],
+    images: ["images/b1.png", "images/b2.png", "images/b3.png", "images/b4.png"],
   },
   {
     title: 'EduPredict',
     description: 'EduPredict is an innovative, mobile-first application engineered to bridge the gap between student behavior and academic outcomes.',
     techStack: ['Python', 'React Native', 'Machine Learning'],
-    images: ["/images/e1.png", "/images/e2.png", "/images/e3.png", "/images/e4.png"],
+    images: ["images/e1.png", "images/e2.png", "images/e3.png", "images/e4.png"],
   },
   {
     title: 'Secure Registration and Login System',
     description: 'This system uses the SHA-256 (Secure Hash Algorithm 256-bit) hashing algorithm to protect user passwords.',
     techStack: ['Python', 'SQLite'],
-    images: ["/images/s1.png", "/images/s2.png", "/images/s3.png"],
+    images: ["images/s1.png", "images/s2.png", "images/s3.png"],
   },
   {
     title: 'SuriinAI',
     description: 'SuriinAI is an AI-powered browser extension built with Python, Flask, Firebase, and Manifest V3 that detects fraudulent websites and phishing scams in real time.',
     techStack: ['Python', 'Manifest V3', 'Flask', 'Firebase'],
-    images: ["/images/c1.png", "/images/c2.png", "/images/c3.png", "/images/c4.png", "/images/c5.png", "/images/c6.png", "/images/c7.png", "/images/c8.png", "/images/c9.png"],
+    images: ["images/c1.png", "images/c2.png", "images/c3.png", "images/c4.png", "images/c5.png", "images/c6.png", "images/c7.png", "images/c8.png", "images/c9.png"],
   },
 ];
 
