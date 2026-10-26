@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 
 const links = [
   { label: 'About', href: '#profile' },
@@ -13,14 +13,27 @@ const links = [
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuButton = useRef(null);
+  const reducedMotion = useReducedMotion();
 
-  const handleLinkClick = () => {
+  useEffect(() => {
+    const desktop = window.matchMedia('(min-width: 1280px)');
+    const closeOnDesktop = () => { if (desktop.matches) setIsMenuOpen(false); };
+    desktop.addEventListener('change', closeOnDesktop);
+    return () => desktop.removeEventListener('change', closeOnDesktop);
+  }, []);
+
+  const handleLinkClick = (event) => {
     setIsMenuOpen(false);
+    const target = document.querySelector(event.currentTarget.hash);
+    if (target) {
+      target.setAttribute('tabindex', '-1');
+      target.focus({ preventScroll: true });
+    }
   };
 
   return (
     <motion.header
-      initial={{ y: -24, opacity: 0 }}
+      initial={reducedMotion ? false : { y: -24, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
       className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-surface/80 backdrop-blur-xl"
@@ -41,7 +54,7 @@ export default function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className="text-sm font-medium tracking-[0.18em] text-textMuted transition-colors duration-200 hover:text-emeraldAccent"
+              className="text-sm font-medium tracking-[0.18em] text-textMuted transition-colors duration-200 hover:text-[#9bddb9]"
             >
               {link.label}
             </a>
@@ -51,10 +64,10 @@ export default function Navbar() {
         <button
           ref={menuButton}
           type="button"
-          className="inline-flex items-center justify-center rounded-full border border-white/10 px-4 py-2 text-sm font-medium tracking-[0.14em] text-textPrimary transition hover:border-emeraldAccent/70 hover:text-emeraldAccent xl:hidden"
+          className="inline-flex items-center justify-center rounded-full border border-white/10 px-4 py-2 text-sm font-medium tracking-[0.14em] text-textPrimary transition hover:border-emeraldAccent/70 hover:text-[#9bddb9] xl:hidden"
           onClick={() => setIsMenuOpen((open) => !open)}
           aria-expanded={isMenuOpen}
-          aria-controls="mobile-navigation"
+          aria-controls={isMenuOpen ? 'mobile-navigation' : undefined}
         >
           {isMenuOpen ? 'Close ×' : 'Menu'}
         </button>
@@ -64,11 +77,11 @@ export default function Navbar() {
         {isMenuOpen ? (
           <motion.div
             id="mobile-navigation"
-            initial={{ opacity: 0, y: -12 }}
+            initial={reducedMotion ? false : { opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.25 }}
-            className="max-h-[80vh] overflow-y-auto border-t border-white/5 bg-surface/95 px-4 py-4 backdrop-blur-xl xl:hidden"
+            transition={{ duration: reducedMotion ? 0 : 0.25 }}
+            className="max-h-[calc(100dvh-76px)] overflow-y-auto border-t border-white/5 bg-surface/95 px-4 py-4 backdrop-blur-xl xl:hidden"
           >
             <nav aria-label="Mobile navigation" className="mx-auto flex max-w-7xl flex-col gap-3">
               {links.map((link) => (

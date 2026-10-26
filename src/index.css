@@ -66,6 +66,7 @@ h1, h2, h3, p, dd { overflow-wrap: break-word; }
 .project-tags { display: flex; flex-wrap: wrap; gap: 7px; }
 .project-tags li { max-width: 100%; overflow-wrap: anywhere; padding: 5px 9px; border: 1px solid #ffffff12; border-radius: 7px; background: #ffffff05; font-size: 11px; line-height: 1.5; color: #c2ccc6; }
 .project-card-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; padding-top: 20px; }
+.project-card-actions a { display: inline-flex; align-items: center; min-height: 44px; }
 .project-dialog { width: min(1100px, calc(100% - 32px)); max-width: none; max-height: calc(100dvh - 32px); margin: auto; padding: 0; border: 1px solid #ffffff30; border-radius: 24px; background: #141b17; color: #e0e0e0; overflow: auto; overscroll-behavior: contain; box-shadow: 0 24px 100px #0008; }
 .project-dialog::backdrop { background: #050b08d9; backdrop-filter: blur(8px); }
 .gallery-header { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 24px; border-bottom: 1px solid #ffffff15; background: #141b17; }
