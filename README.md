@@ -5,7 +5,7 @@ A responsive personal CV website for Arnel D. Dalogdog, a fourth-year Informatio
 **Student:** Arnel D. Dalogdog  
 **Program:** Bachelor of Science in Information Technology  
 **GitHub repository:** [ainzekiel/portfolio](https://github.com/ainzekiel/portfolio)  
-**Live Vercel website:** Pending first deployment — replace this text with the verified production URL before submitting.
+**Live Vercel website:** [arnel's personal CV](https://portfolio-steel-gamma-bha7dn5z4m.vercel.app/)
 
 ## Features
 
@@ -111,7 +111,7 @@ AI assistance was used for implementation, documentation, and review. The compon
 
 ## Submission
 
-- Vercel live URL: **Pending deployment; update before submission.**
+- Vercel live URL: https://portfolio-steel-gamma-bha7dn5z4m.vercel.app/
 - GitHub repository: https://github.com/ainzekiel/portfolio
 
 Verify both links in a signed-out/private browser window. The site should open without requiring the evaluator to sign in.
