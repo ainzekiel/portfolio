@@ -1,0 +1,66 @@
+export const projects = [
+  {
+    title: 'CampusBorrow',
+    category: 'Web apps',
+    featured: true,
+    summary: 'A simpler way to borrow and manage campus equipment.',
+    description: 'CampusBorrow is a web-based campus equipment borrowing system. Students can browse equipment, submit and track borrowing requests, receive notifications, and manage returns. Administrators can manage equipment and categories, approve requests, manage students, record returns, and generate reports.',
+    techStack: ['Next.js', 'React', 'TypeScript', 'Supabase', 'PostgreSQL', 'Tailwind CSS', 'JSON'],
+    images: Array.from({ length: 6 }, (_, index) => `images/cb${index + 1}.png`),
+    repository: 'https://github.com/ainzekiel/campusborrowsystem',
+  },
+  {
+    title: 'Timpla Campus Café',
+    category: 'Web apps',
+    featured: true,
+    summary: 'A touch-friendly ordering experience, from menu to receipt.',
+    description: 'Timpla Campus Café Kiosk is a touch-friendly point-of-sale web application. Customers can browse products, create orders, choose a simulated payment method, and receive digital receipts. Transactions are saved locally, and completed sales can optionally synchronize with a Supabase PostgreSQL database.',
+    techStack: ['React', 'TypeScript', 'Vite', 'JavaScript', 'CSS', 'Supabase', 'PostgreSQL', 'JSON', 'JSX / TSX'],
+    images: Array.from({ length: 6 }, (_, index) => `images/t${index + 1}.png`),
+    repository: 'https://github.com/markbryandelossantos4/dalogdog-delossantos-paradero',
+  },
+  {
+    title: "JOBOL's MENU",
+    category: 'Desktop & tools',
+    description: "Jobol's Menu is a Java and MySQL-based food ordering management system designed to automate restaurant menu customization, customer billing, and daily transaction tracking through a clean desktop interface.",
+    techStack: ["Java", "MySQL"],
+    images: ["images/j1.png", "images/j2.png", "images/j3.png", "images/j4.png", "images/j5.png"],
+  },
+  {
+    title: 'Art Space Hub',
+    category: 'Web apps',
+    description: 'Art Space Hub is a web-based art gallery management system built with Laravel and MySQL that centralizes artwork inventory tracking, exhibition scheduling, and artist curation into a seamless platform.',
+    techStack: ['HTML', 'CSS', 'Laravel', 'MySQL', 'PHP', 'JavaScript'],
+    images: ["images/a1.jpg", "images/a2.jpg", "images/a3.jpg", "images/a4.jpg", "images/a5.jpg"],
+  },
+  {
+    title: 'AgriSync',
+    category: 'Mobile',
+    description: 'A unified platform connecting local farmers directly to eateries, optimizing fresh produce supply chains with smart logistics and transparent trading.',
+    techStack: ['Flutter', 'Rest API', 'Firebase'],
+    images: ["images/b1.png", "images/b2.png", "images/b3.png", "images/b4.png"],
+  },
+  {
+    title: 'EduPredict',
+    category: 'Mobile',
+    description: 'EduPredict is an innovative, mobile-first application engineered to bridge the gap between student behavior and academic outcomes.',
+    techStack: ['Python', 'React Native', 'Machine Learning'],
+    images: ["images/e1.png", "images/e2.png", "images/e3.png", "images/e4.png"],
+  },
+  {
+    title: 'Secure Registration and Login System',
+    category: 'Desktop & tools',
+    description: 'An academic registration and login project exploring authentication flows, SQLite storage, and SHA-256 hashing.',
+    techStack: ['Python', 'SQLite'],
+    images: ["images/s1.png", "images/s2.png", "images/s3.png"],
+  },
+  {
+    title: 'SuriinAI',
+    category: 'Desktop & tools',
+    description: 'SuriinAI is an AI-powered browser extension built with Python, Flask, Firebase, and Manifest V3 that detects fraudulent websites and phishing scams in real time.',
+    techStack: ['Python', 'Manifest V3', 'Flask', 'Firebase'],
+    images: ["images/c1.png", "images/c2.png", "images/c3.png", "images/c4.png", "images/c5.png", "images/c6.png", "images/c7.png", "images/c8.png", "images/c9.png"],
+  },
+];
+
+

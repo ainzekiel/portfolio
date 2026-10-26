@@ -1,305 +1,116 @@
-import { useEffect, useMemo, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
+import { projects } from '../data/projects';
 
-const projects = [
-  {
-    title: "JOBOL's MENU",
-    description: "Jobol's Menu is a Java and MySQL-based food ordering management system designed to automate restaurant menu customization, customer billing, and daily transaction tracking through a clean desktop interface.",
-    techStack: ["Java", "MySQL"],
-    images: ["images/j1.png", "images/j2.png", "images/j3.png", "images/j4.png", "images/j5.png"],
-  },
-  {
-    title: 'Art Space Hub',
-    description: 'Art Space Hub is a web-based art gallery management system built with Laravel and MySQL that centralizes artwork inventory tracking, exhibition scheduling, and artist curation into a seamless platform.',
-    techStack: ['HTML', 'CSS', 'Laravel', 'MySQL', 'PHP', 'JavaScript'],
-    images: ["images/a1.jpg", "images/a2.jpg", "images/a3.jpg", "images/a4.jpg", "images/a5.jpg"],
-  },
-  {
-    title: 'AgriSync',
-    description: 'A unified platform connecting local farmers directly to eateries, optimizing fresh produce supply chains with smart logistics and transparent trading.',
-    techStack: ['Flutter', 'Rest API', 'Firebase'],
-    images: ["images/b1.png", "images/b2.png", "images/b3.png", "images/b4.png"],
-  },
-  {
-    title: 'EduPredict',
-    description: 'EduPredict is an innovative, mobile-first application engineered to bridge the gap between student behavior and academic outcomes.',
-    techStack: ['Python', 'React Native', 'Machine Learning'],
-    images: ["images/e1.png", "images/e2.png", "images/e3.png", "images/e4.png"],
-  },
-  {
-    title: 'Secure Registration and Login System',
-    description: 'This system uses the SHA-256 (Secure Hash Algorithm 256-bit) hashing algorithm to protect user passwords.',
-    techStack: ['Python', 'SQLite'],
-    images: ["images/s1.png", "images/s2.png", "images/s3.png"],
-  },
-  {
-    title: 'SuriinAI',
-    description: 'SuriinAI is an AI-powered browser extension built with Python, Flask, Firebase, and Manifest V3 that detects fraudulent websites and phishing scams in real time.',
-    techStack: ['Python', 'Manifest V3', 'Flask', 'Firebase'],
-    images: ["images/c1.png", "images/c2.png", "images/c3.png", "images/c4.png", "images/c5.png", "images/c6.png", "images/c7.png", "images/c8.png", "images/c9.png"],
-  },
-];
+const filters = ['All projects', 'Web apps', 'Mobile', 'Desktop & tools'];
+const asset = (path) => `${import.meta.env.BASE_URL}${path}`;
 
-const PROJECTS_PER_PAGE = 3;
+function Tags({ items }) {
+  return <ul className="project-tags" aria-label="Technologies used">{items.map((item) => <li key={item}>{item}</li>)}</ul>;
+}
 
-export default function Projects() {
-  const [selectedProjectIndex, setSelectedProjectIndex] = useState(null);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [currentPage, setCurrentPage] = useState(0);
-
-  const selectedProject = useMemo(
-    () => (selectedProjectIndex === null ? null : projects[selectedProjectIndex]),
-    [selectedProjectIndex],
-  );
-
-  const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
-  const visibleProjects = projects.slice(currentPage * PROJECTS_PER_PAGE, (currentPage + 1) * PROJECTS_PER_PAGE);
+function Gallery({ project, onClose }) {
+  const dialog = useRef(null);
+  const [index, setIndex] = useState(0);
+  const [failedImage, setFailedImage] = useState(null);
+  const imagePath = project.images[index];
+  const changeImage = (step) => setIndex((current) => (current + step + project.images.length) % project.images.length);
 
   useEffect(() => {
-    if (!selectedProject) {
-      return undefined;
-    }
-
+    const element = dialog.current;
+    const trigger = document.activeElement;
     const previousOverflow = document.body.style.overflow;
+    element.showModal();
     document.body.style.overflow = 'hidden';
-
-    const handleEscape = (event) => {
-      if (event.key === 'Escape') {
-        handleClose();
-      }
-    };
-
-    window.addEventListener('keydown', handleEscape);
-
     return () => {
+      element.close();
       document.body.style.overflow = previousOverflow;
-      window.removeEventListener('keydown', handleEscape);
+      if (trigger instanceof HTMLElement) trigger.focus({ preventScroll: true });
     };
-  }, [selectedProject]);
-
-  useEffect(() => {
-    setCurrentImageIndex(0);
-  }, [selectedProjectIndex]);
-
-  useEffect(() => {
-    if (currentPage >= totalPages) {
-      setCurrentPage(0);
-    }
-  }, [currentPage, totalPages]);
-
-  const handleOpen = (index) => {
-    setSelectedProjectIndex(index);
-  };
-
-  const handleClose = () => {
-    setSelectedProjectIndex(null);
-    setCurrentImageIndex(0);
-  };
-
-  const handleNext = () => {
-    if (!selectedProject) return;
-    setCurrentImageIndex((current) => (current + 1) % selectedProject.images.length);
-  };
-
-  const handlePrevious = () => {
-    if (!selectedProject) return;
-    setCurrentImageIndex((current) => (current - 1 + selectedProject.images.length) % selectedProject.images.length);
-  };
-
-  const handleNextPage = () => {
-    setCurrentPage((current) => (current + 1) % totalPages);
-  };
-
-  const handlePreviousPage = () => {
-    setCurrentPage((current) => (current - 1 + totalPages) % totalPages);
-  };
+  }, []);
 
   return (
-    <>
-      <section id="projects" className="section-anchor relative mt-6 overflow-hidden rounded-[2rem] bg-white/[0.03] px-6 py-14 sm:px-10">
-        <div className="absolute inset-0 grid-overlay opacity-20" />
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="relative mx-auto max-w-6xl"
-        >
-          <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="font-mono text-sm uppercase tracking-[0.3em] text-textMuted">Selected Work</p>
-              <h3 className="mt-3 font-display text-3xl font-semibold text-textPrimary sm:text-4xl">Course projects</h3>
+    <dialog ref={dialog} className="project-dialog" aria-labelledby="gallery-title" onCancel={onClose}
+      onClick={(event) => { if (event.target === event.currentTarget) onClose(); }}
+      onKeyDown={(event) => {
+        if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+          event.preventDefault();
+          changeImage(event.key === 'ArrowRight' ? 1 : -1);
+        }
+      }}>
+      <div className="gallery-shell">
+        <header className="gallery-header">
+          <div className="min-w-0"><p className="project-eyebrow">Project gallery</p><h2 id="gallery-title" className="font-display text-xl font-semibold sm:text-2xl">{project.title}</h2></div>
+          <button autoFocus type="button" className="gallery-button shrink-0" onClick={onClose} aria-label="Close project gallery">Close ×</button>
+        </header>
+        <div className="gallery-body">
+          <div className="min-w-0">
+            <div className="gallery-image">
+              {failedImage === imagePath ? <p role="status" className="p-6 text-center">This screenshot could not load. Try another preview.</p> :
+                <img key={imagePath} src={asset(imagePath)} alt={`${project.title} — screenshot ${index + 1} of ${project.images.length}`} onError={() => setFailedImage(imagePath)} />}
+            </div>
+            <div className="gallery-controls">
+              <button type="button" className="gallery-button" onClick={() => changeImage(-1)} aria-label="Previous screenshot">← <span>Previous</span></button>
+              <p className="font-mono text-sm text-textMuted" aria-live="polite" aria-atomic="true">{index + 1} / {project.images.length}</p>
+              <button type="button" className="gallery-button" onClick={() => changeImage(1)} aria-label="Next screenshot"><span>Next</span> →</button>
+            </div>
+            <div className="gallery-thumbnails" aria-label="Choose a screenshot">
+              {project.images.map((path, imageIndex) => <button key={path} type="button" aria-label={`Show screenshot ${imageIndex + 1}`} aria-pressed={index === imageIndex} onClick={() => setIndex(imageIndex)}>
+                <img src={asset(path)} alt="" loading="lazy" /><span>{String(imageIndex + 1).padStart(2, '0')}</span>
+              </button>)}
+            </div>
+            <a className="mt-4 inline-block text-sm text-[#9bddb9] underline underline-offset-4" href={asset(imagePath)} target="_blank" rel="noreferrer">Open full-size screenshot ↗<span className="sr-only"> (new tab)</span></a>
+          </div>
+          <aside className="gallery-details">
+            <p className="project-eyebrow">{project.category}</p>
+            <p className="mt-3 text-sm leading-7 text-textMuted">{project.description}</p>
+            <h3 className="mb-3 mt-6 font-display font-semibold">Built with</h3>
+            <Tags items={project.techStack} />
+            {project.repository && <a className="project-link mt-6" href={project.repository} target="_blank" rel="noreferrer">View GitHub repository ↗<span className="sr-only"> (new tab)</span></a>}
+          </aside>
+        </div>
+      </div>
+    </dialog>
+  );
+}
+
+export default function Projects() {
+  const [filter, setFilter] = useState('All projects');
+  const [selectedProject, setSelectedProject] = useState(null);
+  const reducedMotion = useReducedMotion();
+  const visibleProjects = projects.filter((project) => filter === 'All projects' || project.category === filter);
+
+  return (
+    <section id="projects" className="section-anchor projects-section mt-6 rounded-[2rem] border border-white/10 bg-white/[0.03] px-6 py-14 sm:px-10" aria-labelledby="projects-heading">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div><p className="project-eyebrow">04 / Selected work</p><h2 id="projects-heading" className="mt-3 font-display text-3xl font-semibold sm:text-4xl">Ideas put into practice.</h2></div>
+        <a href="https://github.com/ainzekiel" target="_blank" rel="noreferrer" className="project-link">Explore my GitHub ↗<span className="sr-only"> (new tab)</span></a>
+      </div>
+      <p className="mt-4 max-w-2xl leading-7 text-textMuted">A collection of academic projects exploring web development, data, and useful everyday tools. Take a closer look at the interfaces and the technologies behind them.</p>
+      <div className="project-filters" role="group" aria-label="Filter projects by category">
+        {filters.map((item) => <button key={item} type="button" aria-pressed={filter === item} onClick={() => setFilter(item)}>{item}</button>)}
+      </div>
+      <p className="mb-5 text-sm text-textMuted" role="status">Showing {visibleProjects.length} of {projects.length} projects</p>
+      <div className="project-grid">
+        {visibleProjects.map((project) => <motion.article key={project.title} className={`project-card ${project.featured ? 'project-featured' : ''}`}
+          initial={reducedMotion ? false : { opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.1 }} transition={{ duration: reducedMotion ? 0 : 0.35 }}>
+          <button type="button" className="project-preview" aria-label={`Open ${project.title} gallery`} aria-haspopup="dialog" onClick={() => setSelectedProject(project)}>
+            <img src={asset(project.images[0])} alt={`${project.title} interface preview`} loading="lazy" />
+            <span className="preview-count">{project.images.length} screenshots ↗</span>
+          </button>
+          <div className="project-card-body">
+            <p className="project-eyebrow">{project.featured ? 'Featured / ' : ''}{project.category}</p>
+            <h3 className="mt-3 font-display text-2xl font-semibold">{project.title}</h3>
+            <p className="mb-5 mt-3 text-sm leading-7 text-textMuted">{project.summary || project.description}</p>
+            <Tags items={project.techStack} />
+            <div className="project-card-actions">
+              <button type="button" className="project-link" aria-label={`View ${project.title} gallery`} aria-haspopup="dialog" onClick={() => setSelectedProject(project)}>View gallery <span aria-hidden="true">→</span></button>
+              {project.repository && <a className="text-sm text-textMuted hover:text-white" href={project.repository} target="_blank" rel="noreferrer" aria-label={`${project.title} GitHub repository (new tab)`}>GitHub ↗</a>}
             </div>
           </div>
-
-          {totalPages > 1 ? (
-            <div className="mb-5 flex items-center justify-between gap-3">
-              <div className="font-mono text-sm tracking-[0.18em] text-textMuted">
-                Page {currentPage + 1} / {totalPages}
-              </div>
-              <div className="flex gap-3">
-                <button
-                  type="button"
-                  onClick={handlePreviousPage}
-                  className="rounded-full px-4 py-2 text-sm font-semibold tracking-[0.12em] text-textPrimary transition duration-300 hover:-translate-y-0.5 hover:scale-[1.03] hover:text-emeraldAccent hover:shadow-[0_14px_28px_rgba(0,0,0,0.26)]"
-                >
-                  Previous
-                </button>
-                <button
-                  type="button"
-                  onClick={handleNextPage}
-                  className="rounded-full bg-emeraldAccent px-4 py-2 text-sm font-semibold tracking-[0.12em] text-white transition duration-300 hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-[#39785d] hover:shadow-[0_18px_35px_rgba(45,106,79,0.26)]"
-                >
-                  Next
-                </button>
-              </div>
-            </div>
-          ) : null}
-
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentPage}
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -18 }}
-              transition={{ duration: 0.3 }}
-              className="grid gap-5 md:grid-cols-2 xl:grid-cols-3"
-            >
-              {visibleProjects.map((project, visibleIndex) => {
-                const projectIndex = currentPage * PROJECTS_PER_PAGE + visibleIndex;
-
-                return (
-                  <motion.button
-                    key={`${project.title}-${projectIndex}`}
-                    type="button"
-                    initial={{ opacity: 0, y: 24 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.45, delay: visibleIndex * 0.06 }}
-                    onClick={() => handleOpen(projectIndex)}
-                    className="group rounded-[1.6rem] bg-gradient-to-br from-forestAccent/25 via-white/[0.03] to-surface p-5 text-left shadow-sm transition duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_24px_60px_rgba(0,0,0,0.34)]"
-                  >
-                    <div className="mb-4 overflow-hidden rounded-[1.2rem] bg-black/30 transition duration-300 group-hover:shadow-[0_16px_40px_rgba(45,106,79,0.18)]">
-                      <img
-                        src={project.images[0]}
-                        alt={`${project.title} preview`}
-                        className="aspect-[16/10] w-full object-cover transition duration-300 group-hover:scale-[1.03]"
-                      />
-                    </div>
-
-                    <h4 className="mt-3 font-display text-2xl font-semibold text-textPrimary">{project.title}</h4>
-                    <p className="mt-3 text-sm leading-7 text-textMuted">{project.description}</p>
-
-                    <div className="mt-5 flex flex-wrap gap-2">
-                      {project.techStack.map((tech) => (
-                        <span key={tech} className="rounded-full bg-white/[0.04] px-3 py-1 text-xs font-medium tracking-[0.1em] text-textPrimary transition duration-300 group-hover:bg-white/[0.08]">
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </motion.button>
-                );
-              })}
-            </motion.div>
-          </AnimatePresence>
-        </motion.div>
-      </section>
-
-      <AnimatePresence>
-        {selectedProject ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] flex items-center justify-center bg-black/75 px-4 py-8 backdrop-blur-md"
-            onClick={handleClose}
-          >
-            <motion.div
-              initial={{ opacity: 0, y: 24, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 20, scale: 0.98 }}
-              transition={{ duration: 0.25 }}
-              className="relative w-full max-w-4xl overflow-hidden rounded-[1.8rem] bg-[#141414] shadow-glow"
-              onClick={(event) => event.stopPropagation()}
-            >
-              <div className="flex items-center justify-between px-5 py-4 sm:px-6">
-                <div>
-                  <h4 className="mt-2 font-display text-2xl font-semibold text-textPrimary">{selectedProject.title}</h4>
-                </div>
-                <button
-                  type="button"
-                  onClick={handleClose}
-                  className="rounded-full px-4 py-2 text-sm font-semibold tracking-[0.12em] text-textPrimary transition duration-300 hover:-translate-y-0.5 hover:scale-[1.03] hover:text-emeraldAccent hover:shadow-[0_14px_28px_rgba(0,0,0,0.26)]"
-                >
-                  Close
-                </button>
-              </div>
-
-              <div className="grid gap-6 p-5 sm:p-6 lg:grid-cols-[1.5fr_0.8fr]">
-                <div className="space-y-4">
-                  <div className="relative overflow-hidden rounded-[1.4rem] bg-black/30">
-                    <div className="absolute inset-0 bg-gradient-to-br from-emeraldAccent/20 to-transparent" />
-                    <div className="relative aspect-[16/10]">
-                      <AnimatePresence mode="wait">
-                        <motion.div
-                          key={`${selectedProject.title}-${currentImageIndex}`}
-                          initial={{ opacity: 0, x: 24 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0, x: -24 }}
-                          transition={{ duration: 0.28 }}
-                          className="flex h-full w-full items-center justify-center bg-white/[0.03]"
-                        >
-                          <img
-                            src={selectedProject.images[currentImageIndex]}
-                            alt={`${selectedProject.title} screenshot ${currentImageIndex + 1}`}
-                            className="h-full w-full object-cover"
-                          />
-                        </motion.div>
-                      </AnimatePresence>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="font-mono text-sm tracking-[0.18em] text-textMuted">
-                      {currentImageIndex + 1} / {selectedProject.images.length}
-                    </div>
-                    <div className="flex gap-3">
-                      <button
-                        type="button"
-                        onClick={handlePrevious}
-                        className="rounded-full px-4 py-2 text-sm font-semibold tracking-[0.12em] text-textPrimary transition duration-300 hover:-translate-y-0.5 hover:scale-[1.03] hover:text-emeraldAccent hover:shadow-[0_14px_28px_rgba(0,0,0,0.26)]"
-                      >
-                        Previous
-                      </button>
-                      <button
-                        type="button"
-                        onClick={handleNext}
-                        className="rounded-full bg-emeraldAccent px-4 py-2 text-sm font-semibold tracking-[0.12em] text-white transition duration-300 hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-[#39785d] hover:shadow-[0_18px_35px_rgba(45,106,79,0.26)]"
-                      >
-                        Next
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="rounded-[1.4rem] bg-white/[0.03] p-5">
-                  <p className="text-sm leading-7 text-textMuted">{selectedProject.description}</p>
-                  <div className="mt-6">
-                    <p className="font-mono text-xs uppercase tracking-[0.22em] text-textMuted">Tech Stack</p>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {selectedProject.techStack.map((tech) => (
-                        <span key={tech} className="rounded-full bg-white/[0.04] px-3 py-1 text-xs font-medium tracking-[0.1em] text-textPrimary">
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
-    </>
+        </motion.article>)}
+      </div>
+      {selectedProject && <Gallery key={selectedProject.title} project={selectedProject} onClose={() => setSelectedProject(null)} />}
+    </section>
   );
 }
