@@ -17,10 +17,10 @@ export default function Hero() {
         >
           <p className="font-mono text-sm uppercase tracking-[0.35em] text-textMuted">IT Student Portfolio</p>
           <h1 className="font-display text-4xl font-semibold leading-tight text-textPrimary sm:text-5xl lg:text-6xl">
-            Hi, I&apos;m ARNEL D. DALOGDOG
+            Hi, I&apos;m Arnel D. Dalogdog.
           </h1>
           <h2 className="max-w-2xl text-xl font-medium text-emeraldAccent sm:text-2xl">
-            Aspiring FULL-STACK DEVELOPER | DATA ANALYST 
+            Aspiring Data Analyst / Web Developer
           </h2>
           <p className="max-w-2xl text-base leading-8 text-textMuted sm:text-lg">
             I am an IT student focused on building clean, reliable digital experiences that blend practical engineering with thoughtful design. I enjoy turning complex problems into polished interfaces and learning the technologies that power modern products.
@@ -52,8 +52,8 @@ export default function Hero() {
           <div className="overflow-hidden rounded-[1.5rem] bg-surface/80 p-4">
             <div className="overflow-hidden rounded-[1.25rem] border border-white/10 bg-gradient-to-br from-white/10 via-forestAccent/20 to-emeraldAccent/25">
               <img
-                src="images/p3.jpg"
-                alt="Profile placeholder"
+                src={`${import.meta.env.BASE_URL}images/profile.jpg`}
+                alt="Arnel D. Dalogdog"
                 className="h-full w-full object-cover"
               />
             </div>

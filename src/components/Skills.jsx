@@ -18,6 +18,13 @@ const skills = [
   'Bootstrap',
   'Figma',
   'Flask',
+  'Database Management',
+  'System Analysis',
+  'UI/UX Design',
+  'Problem Solving',
+  'Critical Thinking',
+  'Communication',
+  'Teamwork',
 ];
 
 export default function Skills() {
@@ -33,7 +40,7 @@ export default function Skills() {
         <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="font-mono text-sm uppercase tracking-[0.3em] text-textMuted">Core Skills</p>
-            <h3 className="mt-3 font-display text-3xl font-semibold text-textPrimary sm:text-4xl">Technical toolkit</h3>
+            <h2 className="mt-3 font-display text-3xl font-semibold text-textPrimary sm:text-4xl">Technical & professional toolkit</h2>
           </div>
           
         </div>

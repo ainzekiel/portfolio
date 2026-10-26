@@ -1,16 +1,17 @@
 export default function Footer() {
   return (
-    <footer className="mx-auto mt-6 max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
+    <footer id="contact" className="section-anchor mx-auto mt-6 max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
       <div className="rounded-[2rem] border border-white/6 bg-white/[0.03] px-6 py-8 sm:px-10">
         <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div>
             <p className="font-mono text-sm uppercase tracking-[0.3em] text-textMuted">Contact</p>
-            <a href="mailto:[YOUR EMAIL]" className="mt-3 block font-display text-2xl font-semibold text-textPrimary transition hover:text-emeraldAccent">
+            <a href="mailto:arneldalogdog3@gmail.com" className="mt-3 block break-all font-display text-xl font-semibold text-textPrimary transition hover:underline sm:text-2xl">
               arneldalogdog3@gmail.com
             </a>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-4">
+            <a href="https://www.instagram.com/ain_thunder22/" target="_blank" rel="noreferrer" className="rounded-full border border-white/10 px-4 py-3 text-sm transition hover:border-white/40">Instagram</a>
             <a
               href="https://github.com/ainzekiel"
               target="_blank"
