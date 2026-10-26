@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const links = [
@@ -12,6 +12,7 @@ const links = [
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuButton = useRef(null);
 
   const handleLinkClick = () => {
     setIsMenuOpen(false);
@@ -23,9 +24,15 @@ export default function Navbar() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
       className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-surface/80 backdrop-blur-xl"
+      onKeyDown={(event) => {
+        if (event.key === 'Escape' && isMenuOpen) {
+          setIsMenuOpen(false);
+          menuButton.current?.focus();
+        }
+      }}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-        <a href="#about" className="font-display text-lg font-semibold tracking-[0.2em] text-textPrimary">
+        <a href="#about" onClick={handleLinkClick} className="font-display text-lg font-semibold tracking-[0.2em] text-textPrimary">
           ARNEL.D
         </a>
 
@@ -42,13 +49,14 @@ export default function Navbar() {
         </nav>
 
         <button
+          ref={menuButton}
           type="button"
           className="inline-flex items-center justify-center rounded-full border border-white/10 px-4 py-2 text-sm font-medium tracking-[0.14em] text-textPrimary transition hover:border-emeraldAccent/70 hover:text-emeraldAccent xl:hidden"
           onClick={() => setIsMenuOpen((open) => !open)}
           aria-expanded={isMenuOpen}
           aria-controls="mobile-navigation"
         >
-          Menu
+          {isMenuOpen ? 'Close ×' : 'Menu'}
         </button>
       </div>
 
@@ -62,7 +70,7 @@ export default function Navbar() {
             transition={{ duration: 0.25 }}
             className="max-h-[80vh] overflow-y-auto border-t border-white/5 bg-surface/95 px-4 py-4 backdrop-blur-xl xl:hidden"
           >
-            <div className="mx-auto flex max-w-7xl flex-col gap-3">
+            <nav aria-label="Mobile navigation" className="mx-auto flex max-w-7xl flex-col gap-3">
               {links.map((link) => (
                 <a
                   key={link.href}
@@ -73,7 +81,7 @@ export default function Navbar() {
                   {link.label}
                 </a>
               ))}
-            </div>
+            </nav>
           </motion.div>
         ) : null}
       </AnimatePresence>

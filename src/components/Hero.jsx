@@ -19,7 +19,7 @@ export default function Hero() {
           <h1 className="font-display text-4xl font-semibold leading-tight text-textPrimary sm:text-5xl lg:text-6xl">
             Hi, I&apos;m Arnel D. Dalogdog.
           </h1>
-          <h2 className="max-w-2xl text-xl font-medium text-emeraldAccent sm:text-2xl">
+          <h2 className="max-w-2xl text-xl font-medium text-[#9bddb9] sm:text-2xl">
             Aspiring Data Analyst / Web Developer
           </h2>
           <p className="max-w-2xl text-base leading-8 text-textMuted sm:text-lg">
